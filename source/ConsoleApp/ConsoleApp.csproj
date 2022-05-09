@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<ProjectReference Include="..\AlphaVantageClient\AlphaVantageClient.csproj"/>
+	</ItemGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+    	<AssemblyName>ConsoleApp</AssemblyName>
+		<RootNamespace>ConsoleApp</RootNamespace>
+		<AnalysisLevel>latest-Recommended</AnalysisLevel>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Text.Json" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
+	</ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
