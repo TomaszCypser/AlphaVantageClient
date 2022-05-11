@@ -6,6 +6,7 @@
 		<RootNamespace>AlphaVantageClient</RootNamespace>
 		<AnalysisLevel>latest-Recommended</AnalysisLevel>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<VersionPrefix>0.0.1</VersionPrefix>
 		<VersionSuffix>$(VersionSuffix)</VersionSuffix>
 		<Version Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)</Version>
