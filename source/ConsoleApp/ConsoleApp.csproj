@@ -5,11 +5,8 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
     	<AssemblyName>ConsoleApp</AssemblyName>
 		<RootNamespace>ConsoleApp</RootNamespace>
-		<AnalysisLevel>latest-Recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="System.Text.Json" Version="6.0.0"/>

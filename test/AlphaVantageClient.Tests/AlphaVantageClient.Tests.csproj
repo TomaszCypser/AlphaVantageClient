@@ -4,9 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AssemblyName>AlphaVantageClient.Tests</AssemblyName>
-		<RootNamespace>AlphaVantageClient</RootNamespace>
-		<AnalysisLevel>latest-Recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>AlphaVantageClient</RootNamespace>
     <IsPackable>false</IsPackable>
     <NoWarn>CA1707</NoWarn>
   </PropertyGroup>
