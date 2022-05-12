@@ -1,0 +1,30 @@
+name: publish NuGet alpha
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  alphavantage_alpha:
+    env:
+      BUILD_CONFIG: Release
+      VERSION_SUFFIX: ${{github.run_number}}-alpha
+    name: build, test, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore -c $BUILD_CONFIG
+    - name: Unit Tests
+      run: dotnet test --no-build -c $BUILD_CONFIG --verbosity normal --filter Category=UnitTest
+    - name: Integration Tests
+      run: dotnet test --no-build -c $BUILD_CONFIG --verbosity normal --filter Category=IntegrationTest
+    - name: Pack NuGet
+      run: dotnet pack ./source/AlphaVantageClient/AlphaVantageClient.csproj --no-build -c $BUILD_CONFIG -o ./artifacts --version-suffix=$VERSION_SUFFIX
+    - name: Publish NuGet
+      run: dotnet nuget push '*.nupkg' -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}} --skip-duplicate
+      working-directory: artifacts
