@@ -15,4 +15,10 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
 		<PackageReference Include="CsvHelper" Version="27.2.1"/>
 	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>AlphaVantageClient.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 </Project>
