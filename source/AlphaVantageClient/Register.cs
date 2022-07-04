@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -8,20 +9,34 @@ namespace AlphaVantageClient
     {
         public static IServiceCollection AddAlphaVantageStockClient(this IServiceCollection services, IConfiguration configuration)
         {
+            return AddAlphaVantageStockClient(services, configuration, new HttpClientHandler());
+        }
+        
+        public static IServiceCollection AddAlphaVantageStockClient(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            HttpMessageHandler httpMessageHandler)
+        {
             services.AddTransient<AlphaVantageRequestHandler>((sp) =>
             {
-                var configuration = sp.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
-                return new AlphaVantageRequestHandler(configuration.CurrentValue.ApiKey!);
+                var alphaVantageConfiguration = sp.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
+                return new AlphaVantageRequestHandler(alphaVantageConfiguration.CurrentValue.ApiKey!);
             });
             services.AddHttpClient<IStockClient, StockClient>((serviceProvider, client) =>
             {
-                var configuration = serviceProvider.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
-                client.BaseAddress = new System.Uri(configuration.CurrentValue.BaseUrl);
-            }).ConfigurePrimaryHttpMessageHandler<AlphaVantageRequestHandler>();
+                var alphaVantageConfiguration =
+                    serviceProvider.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
+                client.BaseAddress = new System.Uri(alphaVantageConfiguration.CurrentValue.BaseUrl!);
+            }).ConfigurePrimaryHttpMessageHandler(sp =>
+            {
+                var alphaVantageConfiguration = sp.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
+                return new AlphaVantageRequestHandler(httpMessageHandler, alphaVantageConfiguration.CurrentValue.ApiKey!);
+            });
             services.AddSingleton<IValidateOptions<AlphaVantageConfiguration>, AlphaVantageConfigurationValidator>();
             services.AddOptions<AlphaVantageConfiguration>().Bind(configuration.GetSection("AlphaVantage"));
             services.AddAutoMapper(typeof(Register).Assembly);
             return services;
+            
         }
     }
 }

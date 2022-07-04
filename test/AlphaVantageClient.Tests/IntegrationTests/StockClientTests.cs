@@ -16,209 +16,184 @@ public class StockClientTests : TestBase
     }
 
     [Theory]
-    [InlineData(Interval.FifteenMinutes)]
-    [InlineData(Interval.FiveMinutes)]
-    [InlineData(Interval.OneMinute)]
-    [InlineData(Interval.SixtyMinutes)]
-    [InlineData(Interval.ThirtyMinutes)]
-    public async Task GetIntradayTimeSeries_With_Interval_Parameter_Does_Not_Throw(Interval interval)
+    [InlineData(Interval.FiveMinutes, OutputSize.Compact)]
+    [InlineData(Interval.FiveMinutes, OutputSize.Full)]
+    public async Task GetIntradayTimeSeries_Returns_Expected_Result(Interval interval, OutputSize outputSize)
     {
         // Act 
-        var result = await _stockClient.GetIntradayTimeSeries("IBM", interval);
+        var result = await _stockClient.GetIntradayTimeSeries("IBM", interval, true, outputSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Intraday (5min) open, high, low, close prices and volume",result.MetaData.Information);
+        Assert.Equal("IBM",result.MetaData.Symbol);
+        Assert.Equal("5min",result.MetaData.Interval);
+        Assert.Equal("US/Eastern",result.MetaData.TimeZone);
+        Assert.NotEmpty(result.TimeSeries);
+        if(outputSize == OutputSize.Compact) Assert.Equal(100, result.TimeSeries.Count);
+        else Assert.True(result.TimeSeries.Count > 100);
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task GetIntradayTimeSeries_With_Adjusted_Parameter_Does_Not_Throw(bool adjusted)
+    [InlineData("IBM", OutputSize.Compact)]
+    [InlineData("IBM", OutputSize.Full)]
+    [InlineData("TSCO.LON", OutputSize.Full)]
+    [InlineData("SHOP.TRT", OutputSize.Full)]
+    [InlineData("GPV.TRV", OutputSize.Full)]
+    [InlineData("DAI.DEX", OutputSize.Full)]
+    [InlineData("RELIANCE.BSE", OutputSize.Full)]
+    [InlineData("600104.SHH", OutputSize.Full)]
+    [InlineData("000002.SHZ", OutputSize.Full)]
+    public async Task GetDailyTimeSeries_Returns_Expected_Result(string symbol, OutputSize outputSize)
     {
         // Act 
-        var result = await _stockClient.GetIntradayTimeSeries("IBM", Interval.FifteenMinutes, adjusted);
+        var result = await _stockClient.GetDailyTimeSeries(symbol, outputSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Daily Prices (open, high, low, close) and Volumes",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        if(outputSize == OutputSize.Compact) Assert.Equal(100, result.TimeSeries.Count);
+        else Assert.True(result.TimeSeries.Count > 100);
     }
 
     [Theory]
-    [InlineData(OutputSize.Compact)]
-    [InlineData(OutputSize.Full)]
-    public async Task GetIntradayTimeSeries_With_OutputSize_Parameter_Does_Not_Throw(OutputSize outputSize)
+    [InlineData("IBM", OutputSize.Compact)]
+    [InlineData("IBM", OutputSize.Full)]
+    [InlineData("TSCO.LON", OutputSize.Full)]
+    [InlineData("SHOP.TRT", OutputSize.Full)]
+    [InlineData("GPV.TRV", OutputSize.Full)]
+    [InlineData("DAI.DEX", OutputSize.Full)]
+    [InlineData("RELIANCE.BSE", OutputSize.Full)]
+    [InlineData("600104.SHH", OutputSize.Full)]
+    [InlineData("000002.SHZ", OutputSize.Full)]
+    public async Task GetDailyAdjustedTimeSeries_Returns_Expected_Result(string symbol, OutputSize outputSize)
     {
         // Act 
-        var result = await _stockClient.GetIntradayTimeSeries("IBM", Models.Interval.FifteenMinutes, true, outputSize);
+        var result = await _stockClient.GetDailyAdjustedTimeSeries(symbol, outputSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Daily Time Series with Splits and Dividend Events",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        if(outputSize == OutputSize.Compact) Assert.Equal(100, result.TimeSeries.Count);
+        else Assert.True(result.TimeSeries.Count > 100);
     }
 
     [Theory]
-    [InlineData(OutputSize.Compact)]
-    [InlineData(OutputSize.Full)]
-    public async Task GetDailyTimeSeries_With_OutputSize_Parameter_Does_Not_Throw(OutputSize outputSize)
+    [InlineData(Interval.FifteenMinutes, Slice.Year1month1, true)]
+    [InlineData(Interval.FifteenMinutes, Slice.Year1month2, true)]
+    [InlineData(Interval.SixtyMinutes, Slice.Year1month1, false)]
+    public async Task GetIntradayTimeSeriesExtendedHistory_Returns_Expected_Result(Interval interval, Slice slice, bool adjusted)
     {
         // Act 
-        var result = await _stockClient.GetDailyTimeSeries("IBM", outputSize);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
-    }
-
-    [Theory]
-    [InlineData(OutputSize.Compact)]
-    [InlineData(OutputSize.Full)]
-    public async Task GetDailyAdjustedTimeSeries_With_OutputSize_Parameter_Does_Not_Throw(OutputSize outputSize)
-    {
-        // Act 
-        var result = await _stockClient.GetDailyAdjustedTimeSeries("IBM", outputSize);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
-    }
-
-    [Theory]
-    [InlineData(Interval.FifteenMinutes)]
-    [InlineData(Interval.FiveMinutes)]
-    [InlineData(Interval.OneMinute)]
-    [InlineData(Interval.SixtyMinutes)]
-    [InlineData(Interval.ThirtyMinutes)]
-    public async Task GetIntradayTimeSeriesExtendedHistory_With_Interval_Parameter_Does_Not_Throw(Interval interval)
-    {
-        // Act 
-        var result = await _stockClient.GetIntradayTimeSeriesExtendedHistory("IBM", interval);
+        var result = await _stockClient.GetIntradayTimeSeriesExtendedHistory("IBM", interval, adjusted, slice);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.IntradayExtendedHistoryTimeSeries);
+        Assert.True(result.IntradayExtendedHistoryTimeSeries.Count > 100);
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task GetIntradayTimeSeriesExtendedHistory_With_Adjusted_Parameter_Does_Not_Throw(bool adjusted)
+    [InlineData("IBM")]
+    [InlineData("TSCO.LON")]
+    public async Task GetMonthlyAdjustedTimeSeries_Returns_Expected_Result(string symbol)
     {
         // Act 
-        var result = await _stockClient.GetIntradayTimeSeriesExtendedHistory("IBM", Interval.FifteenMinutes, adjusted);
+        var result = await _stockClient.GetMonthlyAdjustedTimeSeries(symbol);
 
         // Assert
         Assert.NotNull(result);
-        Assert.NotNull(result.IntradayExtendedHistoryTimeSeries);
+        Assert.NotNull(result.MetaData);
+        Assert.Equal("Monthly Adjusted Prices and Volumes",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        Assert.True(result.TimeSeries.Count > 100);
     }
-
+    
     [Theory]
-    [InlineData(Slice.Year1month1)]
-    [InlineData(Slice.Year1month2)]
-    [InlineData(Slice.Year1month3)]
-    [InlineData(Slice.Year1month4)]
-    [InlineData(Slice.Year1month5)]
-    [InlineData(Slice.Year1month6)]
-    [InlineData(Slice.Year1month7)]
-    [InlineData(Slice.Year1month8)]
-    [InlineData(Slice.Year1month9)]
-    [InlineData(Slice.Year1month10)]
-    [InlineData(Slice.Year1month11)]
-    [InlineData(Slice.Year1month12)]
-    [InlineData(Slice.Year2month1)]
-    [InlineData(Slice.Year2month2)]
-    [InlineData(Slice.Year2month3)]
-    [InlineData(Slice.Year2month4)]
-    [InlineData(Slice.Year2month5)]
-    [InlineData(Slice.Year2month6)]
-    [InlineData(Slice.Year2month7)]
-    [InlineData(Slice.Year2month8)]
-    [InlineData(Slice.Year2month9)]
-    [InlineData(Slice.Year2month10)]
-    [InlineData(Slice.Year2month11)]
-    [InlineData(Slice.Year2month12)]
-    public async Task GetIntradayTimeSeriesExtendedHistory_With_Slice_Parameter_Does_Not_Throw(Slice slice)
+    [InlineData("IBM")]
+    [InlineData("TSCO.LON")]
+    public async Task GetMonthlyTimeSeries_Returns_Expected_Result(string symbol)
     {
         // Act 
-        var result = await _stockClient.GetIntradayTimeSeriesExtendedHistory("IBM", Interval.FifteenMinutes, true, slice);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.IntradayExtendedHistoryTimeSeries);
-    }
-
-    [Fact]
-    public async Task GetMonthlyAdjustedTimeSeries_Does_Not_Throw()
-    {
-        // Act 
-        var result = await _stockClient.GetMonthlyAdjustedTimeSeries("IBM");
+        var result = await _stockClient.GetMonthlyTimeSeries(symbol);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Monthly Prices (open, high, low, close) and Volumes",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        Assert.True(result.TimeSeries.Count > 100);
     }
     
-    [Fact]
-    public async Task GetMonthlyTimeSeries_Does_Not_Throw()
+    [Theory]
+    [InlineData("IBM")]
+    [InlineData("TSCO.LON")]
+    public async Task GetWeeklyAdjustedTimeSeries_Returns_Expected_Result(string symbol)
     {
         // Act 
-        var result = await _stockClient.GetMonthlyTimeSeries("IBM");
+        var result = await _stockClient.GetWeeklyAdjustedTimeSeries(symbol);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Weekly Adjusted Prices and Volumes",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        Assert.True(result.TimeSeries.Count > 100);
     }
     
-    [Fact]
-    public async Task GetWeeklyAdjustedTimeSeries_Does_Not_Throw()
+    [Theory]
+    [InlineData("IBM")]
+    [InlineData("TSCO.LON")]
+    public async Task GetWeeklyTimeSeries_Returns_Expected_Result(string symbol)
     {
         // Act 
-        var result = await _stockClient.GetWeeklyAdjustedTimeSeries("IBM");
+        var result = await _stockClient.GetWeeklyTimeSeries(symbol);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
+        Assert.Equal("Weekly Prices (open, high, low, close) and Volumes",result.MetaData.Information);
+        Assert.Equal(symbol ,result.MetaData.Symbol);
+        Assert.NotEmpty(result.TimeSeries);
+        Assert.True(result.TimeSeries.Count > 100);
     }
     
-    [Fact]
-    public async Task GetWeeklyTimeSeries_Does_Not_Throw()
+    [Theory]
+    [InlineData("IBM")]
+    [InlineData("300135.SHZ")]
+    public async Task GetQuote_Returns_Expected_Result(string symbol)
     {
         // Act 
-        var result = await _stockClient.GetWeeklyTimeSeries("IBM");
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.MetaData);
-        Assert.NotNull(result.TimeSeries);
-    }
-    
-    [Fact]
-    public async Task GetQuote_Does_Not_Throw()
-    {
-        // Act 
-        var result = await _stockClient.GetQuote("IBM");
+        var result = await _stockClient.GetQuote(symbol);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.GlobalQuote);
     }
     
-    [Fact]
-    public async Task Search_Does_Not_Throw()
+    [Theory]
+    [InlineData("tesco", "Tesco PLC")]
+    [InlineData("tencent", "Tencent Holdings Ltd")]
+    [InlineData("BA", "Boeing Company")]
+    [InlineData("SAIC", "Science Applications International Corp")]
+    public async Task Search_Returns_Expected_Result(string keywords, string expectedMatchName)
     {
         // Act 
-        var result = await _stockClient.SearchSymbol("IBM");
+        var result = await _stockClient.SearchSymbol(keywords);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotNull(result.BestMatches);
+        Assert.Contains(result.BestMatches!, x => x.Name == expectedMatchName);
     }
 }

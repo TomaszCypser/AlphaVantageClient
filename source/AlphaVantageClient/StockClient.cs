@@ -29,7 +29,7 @@ namespace AlphaVantageClient
         public async Task<DailyAdjustedResponse> GetDailyAdjustedTimeSeries(string symbol, OutputSize outputSize = OutputSize.Compact, CancellationToken cancellationToken = default)
             => await GetTimeSeries<DailyAdjustedResponse>(GetDailyAdjustedTimeSeriesQueryParameters(symbol, outputSize), cancellationToken);
         public async Task<DailyResponse> GetDailyTimeSeries(string symbol, OutputSize outputSize = OutputSize.Compact, CancellationToken cancellationToken = default)
-            => await GetTimeSeries<DailyResponse>(GetGetDailyTimeSeriesQueryParameters(symbol, outputSize), cancellationToken);
+            => await GetTimeSeries<DailyResponse>(GetDailyTimeSeriesQueryParameters(symbol, outputSize), cancellationToken);
         public async Task<IntradayResponse> GetIntradayTimeSeries(string symbol, Interval interval, bool adjusted = true, OutputSize outputSize = OutputSize.Compact, CancellationToken cancellationToken = default)
             => await GetTimeSeries<IntradayResponse>(GetIntradayTimeSeriesQueryParameters(symbol, interval, adjusted, outputSize), cancellationToken);
         public async Task<MonthlyResponse> GetMonthlyTimeSeries(string symbol, CancellationToken cancellationToken = default)
@@ -85,7 +85,7 @@ namespace AlphaVantageClient
                     {"datatype", "json"}
                 };
 
-        private static Dictionary<string,string> GetGetDailyTimeSeriesQueryParameters(string symbol, OutputSize outputSize)
+        private static Dictionary<string,string> GetDailyTimeSeriesQueryParameters(string symbol, OutputSize outputSize)
             => new Dictionary<string,string>()
                 {
                     {"function","TIME_SERIES_DAILY"},

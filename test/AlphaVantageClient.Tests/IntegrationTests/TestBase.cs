@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace AlphaVantageClient
+namespace AlphaVantageClient.IntegrationTests
 {
     public abstract class TestBase
     {
@@ -24,7 +25,7 @@ namespace AlphaVantageClient
         private static IServiceProvider CreateServiceProvider(IConfiguration configuration)
         {
             var services = new ServiceCollection();
-            services.AddAlphaVantageStockClient(configuration);
+            services.AddAlphaVantageStockClient(configuration, new StockHttpMessageHandlerStub());
             return services.BuildServiceProvider();
         }
     }

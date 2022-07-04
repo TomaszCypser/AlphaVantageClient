@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using AlphaVantageClient;
+using AlphaVantageClient.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,7 @@ namespace ConsoleApp
             var configuration = SetupConfiguration();
             var serviceProvider = ConfigureServices(configuration);
             var stockClient = serviceProvider.GetRequiredService<IStockClient>();
-            var result = stockClient.SearchSymbol("IBM").GetAwaiter().GetResult();
+            var result = stockClient.GetIntradayTimeSeries("IBM",Interval.FifteenMinutes).GetAwaiter().GetResult();
             System.Console.WriteLine(JsonSerializer.Serialize(result));
         }
 
