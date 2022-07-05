@@ -1,4 +1,5 @@
 using System.Net.Http;
+using AlphaVantageClient.Stock;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -17,7 +18,7 @@ namespace AlphaVantageClient
             IConfiguration configuration, 
             HttpMessageHandler httpMessageHandler)
         {
-            services.AddTransient<AlphaVantageRequestHandler>((sp) =>
+            services.AddTransient(sp =>
             {
                 var alphaVantageConfiguration = sp.GetRequiredService<IOptionsMonitor<AlphaVantageConfiguration>>();
                 return new AlphaVantageRequestHandler(alphaVantageConfiguration.CurrentValue.ApiKey!);
