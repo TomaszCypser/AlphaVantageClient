@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using AlphaVantageClient;
+using AlphaVantageClient.Models;
 using AlphaVantageClient.Stock;
 using AlphaVantageClient.Stock.Models;
 using Microsoft.Extensions.Configuration;

@@ -9,7 +9,7 @@ namespace AlphaVantageClient.Stock.Mappers
     {
         public MonthlyAdjustedResponseMapperProfile()
         {
-            CreateMap<StockTimeSeriesApiResponse?, Models.MonthlyAdjustedResponse>()
+            CreateMap<TimeSeriesApiResponse?, Models.MonthlyAdjustedResponse>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ConvertUsing((source, dest, context) =>
                 {

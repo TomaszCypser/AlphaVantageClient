@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AlphaVantageClient.Stock.Serialization
+namespace AlphaVantageClient.Cryptocurrency.Serialization
 {
     internal class TimeSeriesApiResponse
     {
@@ -11,14 +11,23 @@ namespace AlphaVantageClient.Stock.Serialization
         [JsonPropertyName("Time Series")]
         public Dictionary<string, TimeSeries>? TimeSeries { get; set; }
     }
-
+    
     internal class MetaData
     {
         [JsonPropertyName("Information")]
         public string? Information { get; set; }
 
-        [JsonPropertyName("Symbol")]
-        public string? Symbol { get; set; }
+        [JsonPropertyName("Digital Currency Code")]
+        public string? DigitalCurrencyCode { get; set; }
+
+        [JsonPropertyName("Digital Currency Name")]
+        public string? DigitalCurrencyName { get; set; }
+
+        [JsonPropertyName("Market Code")]
+        public string? MarketCode { get; set; }
+
+        [JsonPropertyName("Market Name")]
+        public string? MarketName { get; set; }
 
         [JsonPropertyName("Last Refreshed")]
         public string? LastRefreshed { get; set; }
@@ -28,11 +37,11 @@ namespace AlphaVantageClient.Stock.Serialization
 
         [JsonPropertyName("Output Size")]
         public string? OutputSize { get; set; }
-
+        
         [JsonPropertyName("Time Zone")]
         public string? TimeZone { get; set; }
     }
-
+    
     internal class TimeSeries
     {
         [JsonPropertyName("open")]
@@ -45,18 +54,24 @@ namespace AlphaVantageClient.Stock.Serialization
         public string? Low { get; set; }
 
         [JsonPropertyName("close")]
-        public string? Close { get; set; }
+        public string? Close { get; set; }       
+        
+        [JsonPropertyName("open (USD)")]
+        public string? OpenUSD { get; set; }
 
-        [JsonPropertyName("adjusted close")]
-        public string? AdjustedClose { get; set; }
+        [JsonPropertyName("high (USD)")]
+        public string? HighUSD { get; set; }
 
-        [JsonPropertyName("dividend amount")]
-        public string? DividendAmount { get; set; }
+        [JsonPropertyName("low (USD)")]
+        public string? LowUSD { get; set; }
+
+        [JsonPropertyName("close (USD)")]
+        public string? CloseUSD { get; set; }
+
+        [JsonPropertyName("market cap (USD)")]
+        public string? MarketCap { get; set; }
 
         [JsonPropertyName("volume")]
         public string? Volume { get; set; }
-
-        [JsonPropertyName("split coefficient")]
-        public string? SplitCoefficient { get; set; }
     }
 }

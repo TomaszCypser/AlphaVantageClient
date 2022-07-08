@@ -1,6 +1,6 @@
 using AlphaVantageClient.Utils;
 
-namespace AlphaVantageClient.Stock.Models
+namespace AlphaVantageClient.Models
 {
     public enum OutputSize
     {

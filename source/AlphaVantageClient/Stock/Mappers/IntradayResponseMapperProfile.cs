@@ -9,7 +9,7 @@ namespace AlphaVantageClient.Stock.Mappers
     {
         public IntradayResponseMapperProfile()
         {
-            CreateMap<StockTimeSeriesApiResponse?, Models.IntradayResponse>()
+            CreateMap<TimeSeriesApiResponse?, Models.IntradayResponse>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ConvertUsing((source, dest, context) =>
                 {

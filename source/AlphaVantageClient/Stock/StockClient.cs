@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using AlphaVantageClient.Models;
 using AlphaVantageClient.Stock.Models;
 using AlphaVantageClient.Utils;
 using AutoMapper;
@@ -14,17 +14,9 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace AlphaVantageClient.Stock
 {
-    public class StockClient : IStockClient
+    public class StockClient : AlphaVantageBaseClient, IStockClient
     {
-        private readonly HttpClient _httpClient;
-        private readonly IMapper _mapper;
-        private string GetBaseRequestUrl() => $"{_httpClient.BaseAddress}/query";
-
-        public StockClient(HttpClient httpClient, IMapper mapper)
-        {
-            _httpClient = httpClient;
-            _mapper = mapper;
-        }
+        public StockClient(HttpClient httpClient, IMapper mapper) : base(httpClient, mapper) { }
 
         public async Task<DailyAdjustedResponse> GetDailyAdjustedTimeSeries(string symbol, OutputSize outputSize = OutputSize.Compact, CancellationToken cancellationToken = default)
             => await GetTimeSeries<DailyAdjustedResponse>(GetDailyAdjustedTimeSeriesQueryParameters(symbol, outputSize), cancellationToken);
@@ -51,7 +43,7 @@ namespace AlphaVantageClient.Stock
             var requestUrl = QueryHelpers.AddQueryString(baseAddress, GetIntradayExtendedTimeSeriesQueryParameters(symbol, interval, adjusted, slice));
             using (var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(requestUrl)))
             {
-                using (var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage, cancellationToken))
+                using (var httpResponseMessage = await HttpClient.SendAsync(httpRequestMessage, cancellationToken))
                 {
                     httpResponseMessage.EnsureSuccessStatusCode();
                     using (var stream = await httpResponseMessage.Content.ReadAsStreamAsync())
@@ -59,7 +51,7 @@ namespace AlphaVantageClient.Stock
                     using (var csvReader = new CsvReader(streamReader, CultureInfo.CurrentCulture))
                     {
                         var response = csvReader.GetRecords<Serialization.IntradayExtendedHistoryApiResponse>();
-                        return _mapper.Map<IEnumerable<Serialization.IntradayExtendedHistoryApiResponse>?, IntradayExtendedHistoryResponse>(response);
+                        return Mapper.Map<IEnumerable<Serialization.IntradayExtendedHistoryApiResponse>?, IntradayExtendedHistoryResponse>(response);
                     }
                 }
             }
@@ -155,19 +147,6 @@ namespace AlphaVantageClient.Stock
 
         private async Task<T> GetTimeSeries<T>(Dictionary<string,string> queryParameters, CancellationToken cancellationToken)
             where T : class
-            => await GetApiResponse<Serialization.StockTimeSeriesApiResponse,T>(queryParameters, cancellationToken);
-
-        private async Task<T> GetApiResponse<U,T>(Dictionary<string,string> queryParameters, CancellationToken cancellationToken) 
-            where T : class
-            where U : class
-        {
-            var baseAddress = GetBaseRequestUrl();
-            var requestUrl = QueryHelpers.AddQueryString(baseAddress, queryParameters);
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage, cancellationToken);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            var response = JsonSerializer.Deserialize<U?>(await httpResponseMessage.Content.ReadAsStringAsync());
-            return _mapper.Map<U?, T>(response);
-        }
+            => await GetApiResponse<Serialization.TimeSeriesApiResponse,T>(queryParameters, cancellationToken);
     }
 }

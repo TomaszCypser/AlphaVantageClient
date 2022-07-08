@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AlphaVantageClient.Models;
 using AlphaVantageClient.Stock.Models;
 
 namespace AlphaVantageClient.Stock

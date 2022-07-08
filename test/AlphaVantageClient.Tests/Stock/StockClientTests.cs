@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
+using AlphaVantageClient.Models;
 using AlphaVantageClient.Stock.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
