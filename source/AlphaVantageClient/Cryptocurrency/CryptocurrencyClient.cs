@@ -13,9 +13,6 @@ namespace AlphaVantageClient.Cryptocurrency
     {
         public CryptocurrencyClient(HttpClient httpClient, IMapper mapper) : base(httpClient, mapper) { }
         
-        public async Task<RealTimeExchangeRateResponse> GetCurrencyExchangeRate(string fromCurrency, string toCurrency, CancellationToken cancellationToken = default)
-            => await GetApiResponse<Serialization.RealTimeExchangeRateApiResponse,RealTimeExchangeRateResponse>(GetCurrencyExchangeRateQueryParameters(fromCurrency,toCurrency), cancellationToken);
-   
         public async Task<IntradayResponse> GetIntradayTimeSeries(string symbol, string market, Interval interval, OutputSize outputSize,
             CancellationToken cancellationToken = default)
             => await GetApiResponse<Serialization.IntradayTimeSeriesApiResponse,IntradayResponse>(GetIntradayTimeSeriesQueryParameters(symbol, market, interval, outputSize), cancellationToken);

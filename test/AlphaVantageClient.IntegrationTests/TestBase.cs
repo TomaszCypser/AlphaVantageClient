@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using AlphaVantageClient.Cryptocurrency;
+using AlphaVantageClient.Forex;
 using AlphaVantageClient.Stock;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ namespace AlphaVantageClient
             var services = new ServiceCollection();
             services.AddAlphaVantageStockClient(configuration, new StockHttpMessageHandlerStub());
             services.AddAlphaVantageCryptocurrencyClient(configuration, new CryptocurrencyHttpMessageHandlerStub());
+            services.AddAlphaVantageForexClient(configuration, new ForexHttpMessageHandlerStub());
             return services.BuildServiceProvider();
         }
     }

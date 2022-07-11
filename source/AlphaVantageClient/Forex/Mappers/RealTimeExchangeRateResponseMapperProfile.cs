@@ -1,16 +1,16 @@
 using System;
-using AlphaVantageClient.Cryptocurrency.Models;
-using AlphaVantageClient.Cryptocurrency.Serialization;
+using AlphaVantageClient.Forex.Models;
+using AlphaVantageClient.Forex.Serialization;
 using AutoMapper;
-using RealTimeExchangeRate = AlphaVantageClient.Cryptocurrency.Serialization.RealTimeExchangeRate;
+using RealTimeExchangeRate = AlphaVantageClient.Forex.Serialization.RealTimeExchangeRate;
 
-namespace AlphaVantageClient.Cryptocurrency.Mappers
+namespace AlphaVantageClient.Forex.Mappers
 {
     public class RealTimeExchangeRateResponseMapperProfile : Profile
     {
         public RealTimeExchangeRateResponseMapperProfile()
         {
-            CreateMap<RealTimeExchangeRateApiResponse?, Models.RealTimeExchangeRateResponse>()
+            CreateMap<RealTimeExchangeRateApiResponse?, Forex.Models.RealTimeExchangeRateResponse>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ConvertUsing((source, dest, context) =>
                 {
@@ -19,11 +19,11 @@ namespace AlphaVantageClient.Cryptocurrency.Mappers
 
                     return new RealTimeExchangeRateResponse
                     (
-                        context.Mapper.Map<RealTimeExchangeRate, Models.RealTimeExchangeRate>(source.RealTimeExchangeRate)
+                        context.Mapper.Map<RealTimeExchangeRate, Forex.Models.RealTimeExchangeRate>(source.RealTimeExchangeRate)
                     );
                 });
             
-            CreateMap<RealTimeExchangeRate?, Models.RealTimeExchangeRate>()
+            CreateMap<RealTimeExchangeRate?, Forex.Models.RealTimeExchangeRate>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ConvertUsing((source, dest, context) =>
                 {
@@ -42,7 +42,7 @@ namespace AlphaVantageClient.Cryptocurrency.Mappers
                     if(string.IsNullOrEmpty(source.BidPrice)) throw new ArgumentException($"Provided value for {nameof(source.BidPrice)} cannot be null or empty.");
                     if(!decimal.TryParse(source.BidPrice, out decimal bidPriceConverted)) throw new ArgumentException($"Provided value for {nameof(source.BidPrice)} is not a valid number.");
 
-                    return new Models.RealTimeExchangeRate
+                    return new Forex.Models.RealTimeExchangeRate
                     (
                         source.FromCurrencyCode,
                         source.FromCurrencyName,

@@ -19,29 +19,8 @@ namespace AlphaVantageClient.Stock.Mappers
                     
                     return new Models.DailyAdjustedResponse
                     (
-                        context.Mapper.Map<Serialization.MetaData, Models.DailyAdjustedMetaData>(source.MetaData),
+                        context.Mapper.Map<Serialization.MetaData, Models.DailyMetaData>(source.MetaData),
                         context.Mapper.Map<Dictionary<string, Serialization.TimeSeries>, Dictionary<string, Models.DailyAdjustedTimeSeries>>(source.TimeSeries)
-                    );
-                });
-
-            CreateMap<Serialization.MetaData, Models.DailyAdjustedMetaData>()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter()
-                .ConvertUsing((source, dest, context) =>
-                {
-                    if(source is null) throw new ArgumentNullException(nameof(source));
-                    if(string.IsNullOrEmpty(source.LastRefreshed)) throw new ArgumentException($"Provided value for {nameof(source.LastRefreshed)} cannot be null or empty.");
-                    if(string.IsNullOrEmpty(source.Information)) throw new ArgumentException($"Provided value for {nameof(source.Information)} cannot be null or empty.");
-                    if(string.IsNullOrEmpty(source.OutputSize)) throw new ArgumentException($"Provided value for {nameof(source.OutputSize)} cannot be null or empty.");
-                    if(string.IsNullOrEmpty(source.Symbol)) throw new ArgumentException($"Provided value for {nameof(source.Symbol)} cannot be null or empty.");
-                    if(string.IsNullOrEmpty(source.TimeZone)) throw new ArgumentException($"Provided value for {nameof(source.TimeZone)} cannot be null or empty.");
-                    
-                    return new Models.DailyAdjustedMetaData
-                    (
-                        source.Information,
-                        source.Symbol,
-                        source.LastRefreshed,
-                        source.OutputSize,
-                        source.TimeZone
                     );
                 });
 

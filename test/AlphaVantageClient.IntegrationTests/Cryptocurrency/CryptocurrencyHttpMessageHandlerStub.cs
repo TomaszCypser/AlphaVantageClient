@@ -19,8 +19,6 @@ namespace AlphaVantageClient.Cryptocurrency
         {
             switch (request.RequestUri!.AbsoluteUri)
             {
-                case { } url when url.Contains("CURRENCY_EXCHANGE_RATE"): 
-                    return await StubGetCurrencyExchangeRate(request, cancellationToken); 
                 case { } url when url.Contains("CRYPTO_INTRADAY"): 
                     return await StubGetIntradayTimeSeries(request, cancellationToken);
                 case { } url when url.Contains("DIGITAL_CURRENCY_DAILY"): 
@@ -53,15 +51,6 @@ namespace AlphaVantageClient.Cryptocurrency
             if (request.RequestUri!.AbsoluteUri.ContainsAll("symbol=BTC"))
                 return await Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(await GetUrlResponse("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=demo",cancellationToken)) }); 
             throw new ArgumentException("Unexpected parameters for 'DIGITAL_CURRENCY_DAILY' Request, currently stub does not support this scenario.");
-        }
-
-        private async Task<HttpResponseMessage> StubGetCurrencyExchangeRate(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            if (request.RequestUri!.AbsoluteUri.ContainsAll("from_currency=BTC"))
-                return await Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(await GetUrlResponse("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=CNY&apikey=demo",cancellationToken)) });
-            if (request.RequestUri!.AbsoluteUri.ContainsAll("from_currency=USD"))
-                return await Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(await GetUrlResponse("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=demo",cancellationToken)) });
-            throw new ArgumentException("Unexpected parameters for 'CURRENCY_EXCHANGE_RATE' Request, currently stub does not support this scenario.");
         }
 
         private async Task<HttpResponseMessage> StubGetIntradayTimeSeries(HttpRequestMessage request, CancellationToken cancellationToken)

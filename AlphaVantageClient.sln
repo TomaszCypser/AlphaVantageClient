@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaVantageClient", "sourc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{756B6454-0262-421F-A178-0C03A3AFBF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaVantageClient.Tests", "test\AlphaVantageClient.Tests\AlphaVantageClient.Tests.csproj", "{2ECB3624-50F2-45ED-A382-98AFAFBAD544}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaVantageClient.IntegrationTests", "test\AlphaVantageClient.IntegrationTests\AlphaVantageClient.IntegrationTests.csproj", "{2ECB3624-50F2-45ED-A382-98AFAFBAD544}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "source\ConsoleApp\ConsoleApp.csproj", "{F4FA256B-65E8-4042-ABE8-D3DEB8F81851}"
 EndProject

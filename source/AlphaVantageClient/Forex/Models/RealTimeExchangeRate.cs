@@ -1,14 +1,5 @@
-namespace AlphaVantageClient.Cryptocurrency.Models
+namespace AlphaVantageClient.Forex.Models
 {
-    public class RealTimeExchangeRateResponse
-    {
-        public RealTimeExchangeRateResponse(RealTimeExchangeRate realTimeExchangeRate)
-        {
-            RealTimeExchangeRate = realTimeExchangeRate;
-        }
-
-        public RealTimeExchangeRate RealTimeExchangeRate { get; }
-    }
     public class RealTimeExchangeRate
     {
         public RealTimeExchangeRate(string fromCurrencyCode, string fromCurrencyName, string toCurrencyCode, string toCurrencyName, decimal exchangeRate, string lastRefreshed, string timezone, decimal bidPrice, decimal askPrice)

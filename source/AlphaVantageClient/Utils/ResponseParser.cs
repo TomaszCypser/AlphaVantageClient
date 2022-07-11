@@ -47,6 +47,8 @@ namespace AlphaVantageClient.Utils
                     {"\"(.*\\. Market Code)\"", "Market Code"},
                     {"\"(.*\\. Market Name)\"", "Market Name"},
                     {"\"(.*\\. From_Currency Code)\"", "From_Currency Code"},
+                    {"\"(.*\\. From Symbol)\"", "From Symbol"},
+                    {"\"(.*\\. To Symbol)\"", "To Symbol"},
                     {"\"(.*\\. From_Currency Name)\"", "From_Currency Name"},
                     {"\"(.*\\. To_Currency Code)\"", "To_Currency Code"},
                     {"\"(.*\\. To_Currency Name)\"", "To_Currency Name"},

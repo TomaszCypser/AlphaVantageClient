@@ -1,13 +1,7 @@
 using System.Text.Json.Serialization;
 
-namespace AlphaVantageClient.Cryptocurrency.Serialization
+namespace AlphaVantageClient.Forex.Serialization
 {
-    internal class RealTimeExchangeRateApiResponse
-    {
-        [JsonPropertyName("Realtime Currency Exchange Rate")]
-        public RealTimeExchangeRate? RealTimeExchangeRate { get; set; }
-    }
-    
     internal class RealTimeExchangeRate
     {
         [JsonPropertyName("From_Currency Code")]

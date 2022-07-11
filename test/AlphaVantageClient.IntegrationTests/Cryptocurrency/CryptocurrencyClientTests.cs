@@ -96,20 +96,4 @@ public class CryptoCurrencyClientTests : TestBase
         Assert.NotEmpty(result.TimeSeries);
         Assert.True(result.TimeSeries.Count > 100);
     }
-    
-    [Theory]
-    [InlineData("BTC", "CNY")]
-    [InlineData("USD", "JPY")]
-    public async Task GetCurrencyExchangeRate_Returns_Expected_Result(string fromCurrency, string toCurrency)
-    {
-        // Act 
-        var result = await _cryptocurrencyClient.GetCurrencyExchangeRate(fromCurrency, toCurrency);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.RealTimeExchangeRate);
-        Assert.Equal(fromCurrency, result.RealTimeExchangeRate.FromCurrencyCode);
-        Assert.Equal(toCurrency, result.RealTimeExchangeRate.ToCurrencyCode);
-        Assert.Equal("UTC", result.RealTimeExchangeRate.Timezone);
-    }
 }
