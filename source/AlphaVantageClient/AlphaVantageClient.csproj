@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Description>Client library for communication with https://www.alphavantage.co/</Description>
+		<PackageProjectUrl>https://github.com/TomaszCypser/AlphaVantageClient</PackageProjectUrl>
 		<TargetFramework>.netstandard2.1</TargetFramework>
 		<AssemblyName>AlphaVantageClient</AssemblyName>
 		<RootNamespace>AlphaVantageClient</RootNamespace>
