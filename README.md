@@ -16,8 +16,8 @@ Supported:
 
 - :white_check_mark: Core Stock APIs
 - :x: Fundamental Data
-- :x: Forex (FX)
-- :x: Cryptocurrencies
+- :white_check_mark: Forex (FX)
+- :white_check_mark: Cryptocurrencies
 - :x: Economic Indicators
 - :x: Technical Indicators
 
