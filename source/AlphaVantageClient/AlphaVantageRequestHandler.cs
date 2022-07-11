@@ -15,14 +15,14 @@ namespace AlphaVantageClient
             _apiKey = apiKey;
         }
 
-        protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var uriBuilder = new UriBuilder(request.RequestUri);
             if (string.IsNullOrEmpty(uriBuilder.Query)) uriBuilder.Query = $"apikey={_apiKey}";
             else uriBuilder.Query = $"{uriBuilder.Query}&apikey={_apiKey}";
             request.RequestUri = uriBuilder.Uri;
             return await base.SendAsync(request, cancellationToken).ContinueWith(
-                (task) =>
+                task =>
                 {
                     HttpResponseMessage response = task.Result;
                     var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();

@@ -1,0 +1,56 @@
+using AlphaVantageClient.Utils;
+
+namespace AlphaVantageClient.Stock.Models
+{    
+    public enum Slice
+    {
+        [QueryValue("year1month1")]
+        Year1month1,
+        [QueryValue("year1month2")]
+        Year1month2,
+        [QueryValue("year1month3")]
+        Year1month3,
+        [QueryValue("year1month4")]
+        Year1month4,
+        [QueryValue("year1month5")]
+        Year1month5,
+        [QueryValue("year1month6")]
+        Year1month6,
+        [QueryValue("year1month7")]
+        Year1month7,
+        [QueryValue("year1month8")]
+        Year1month8,
+        [QueryValue("year1month9")]
+        Year1month9,
+        [QueryValue("year1month10")]
+        Year1month10,
+        [QueryValue("year1month11")]
+        Year1month11,
+        [QueryValue("year1month12")]
+        Year1month12,
+        [QueryValue("year2month1")]
+        Year2month1,
+        [QueryValue("year2month2")]
+        Year2month2,
+        [QueryValue("year2month3")]
+        Year2month3,
+        [QueryValue("year2month4")]
+        Year2month4,
+        [QueryValue("year2month5")]
+        Year2month5,
+        [QueryValue("year2month6")]
+        Year2month6,
+        [QueryValue("year2month7")]
+        Year2month7,
+        [QueryValue("year2month8")]
+        Year2month8,
+        [QueryValue("year2month9")]
+        Year2month9,
+        [QueryValue("year2month10")]
+        Year2month10,
+        [QueryValue("year2month11")]
+        Year2month11,
+        [QueryValue("year2month12")]
+        Year2month12
+    }
+}
