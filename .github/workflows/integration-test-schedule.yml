@@ -1,0 +1,24 @@
+name: Integration test schedule
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  alphavantage_alpha:
+    env:
+      BUILD_CONFIG: Release
+    name: build & test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore -c $BUILD_CONFIG
+    - name: Unit Tests
+      run: dotnet test --no-build -c $BUILD_CONFIG --verbosity normal --filter Category=UnitTest
+    - name: Integration Tests
+      run: dotnet test --no-build -c $BUILD_CONFIG --verbosity normal --filter Category=IntegrationTest

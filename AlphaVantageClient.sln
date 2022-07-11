@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "general", "general", "{0924
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{611FCE5B-11CB-443F-B3DE-BB144B74DE0D}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\publish-nuget-alpha.yml = .github\workflows\publish-nuget-alpha.yml
+		.github\workflows\integration-test-schedule.yml = .github\workflows\integration-test-schedule.yml
 		.github\workflows\publish-nuget-beta.yml = .github\workflows\publish-nuget-beta.yml
 		.github\workflows\publish-nuget-release.yml = .github\workflows\publish-nuget-release.yml
 	EndProjectSection
